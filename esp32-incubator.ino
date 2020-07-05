@@ -245,7 +245,7 @@ void setup() {
   xTaskCreatePinnedToCore(heartbeatTask, "Heartbeat", 8192, NULL, 3, &heartbeatTaskHandle, APP_CPU_NUM);
   delay(100);
   // xTaskCreateがpdTRUE以外を返すかハンドラがNULLであれば登録失敗
-  if (heartbeatTaskHandle == NULL) log_w("Failed to start HeartBeat Task");
+  if (heartbeatTaskHandle == NULL) { log_w("Failed to start HeartBeat Task"); }
 
   // 基本タイマー設定（必ず毎秒実行 = 100万μs）
   heartbeatTimer = timerBegin(TIMER_NUM_HEARTBEAT, 80, true); // (内部タイマー番号, 分周率, カウントアップ)
@@ -259,7 +259,7 @@ void setup() {
   xTaskCreatePinnedToCore(networkTask, "NetworkService", 8192, NULL, 3, &networkTaskHandle, APP_CPU_NUM);
   delay(100);
   // xTaskCreateがpdTRUE以外を返すかハンドラがNULLであれば登録失敗
-  if (networkTaskHandle == NULL) log_w("Failed to start Network Task");
+  if (networkTaskHandle == NULL) { log_w("Failed to start Network Task"); }
   
   // 通信系タイマー設定（30秒毎に実行 = 3000万μs）
   networkTimer = timerBegin(TIMER_NUM_NETWORK, 80, true); // (内部タイマー番号, 分周率, カウントアップ)

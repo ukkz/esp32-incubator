@@ -3,8 +3,11 @@ void networkTask(void* pvParameters) {
   // Ambient：初期化
   char amb_wk[20]; conf.getCharArray("ambient_write_key", amb_wk);
   bool amb = ambient.begin((unsigned int)conf.get("ambient_channel_id").toInt(), amb_wk, &ambient_client);
-  if (amb) log_i("Ambient intialize OK");
-  else     log_w("Ambient intialize failure");
+  if (amb) {
+    log_i("Ambient intialize OK");
+  } else {
+    log_w("Ambient intialize failure");
+  }
   
   // MQTT：接続設定情報を読み出す
   String status_message = String("Ready to connect");
@@ -31,8 +34,12 @@ void networkTask(void* pvParameters) {
     ambient.set(2, thsensor.getHumidity());
     ambient.set(3, heater.getDuty());
     ambient.set(4, rotater.getCurrentDegrees());
-    (ambient.send() ? log_i("Ambient - Data sent") : log_w("Ambient - Failed to send data"));
-    
+    if (ambient.send()) {
+      log_i("Ambient - Data sent");
+    } else {
+      log_w("Ambient - Failed to send data");
+    }
+        
     // WiFi接続されているがMQTT接続されていない場合：MQTT接続試行
     if (WiFi.status() == WL_CONNECTED && !mqtt.connected()) {
       if (mqtt.connect(client_id, user, passwd)) {
@@ -49,8 +56,11 @@ void networkTask(void* pvParameters) {
     
     // MQTTステータスログは毎回表示する
     int mqst = mqtt.state();
-    if (mqst == 0) log_i("MQTT - keeping alive");
-    else log_w("MQTT - status warning - code %d", mqst);
+    if (mqst == 0) {
+      log_i("MQTT - keeping alive");
+    } else {
+      log_w("MQTT - status warning - code %d", mqst);
+    }
     
     // サスペンド（RTOSに処理を返す）
     delay(1);
