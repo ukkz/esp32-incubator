@@ -1,0 +1,7 @@
+temp_target:38.5
+kp:0.80
+ki:1.30
+kd:0.40
+epoch_start:0
+rotate_onoff:1
+rotate_last_degrees:90

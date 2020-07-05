@@ -1,0 +1,15 @@
+wifi_ssid:YOUR_SSID_NAME
+wifi_passwd:YOUR_SSID_PASSWORD
+ntp_interval:10800
+rotate_interval:4200
+rotate_max_degrees:170
+rotate_min_degrees:10
+rotate_autostop_after_hours:444
+ambient_channel_id:AMBIENT_CHANNEL_ID
+ambient_write_key:AMBIENT_WRITE_KEY
+mqtt_client_id:ESP32-INCUBATOR
+mqtt_server:MQTT_SERVER_URL
+mqtt_username:MQTT_USERNAME
+mqtt_passwd:MQTT_PASSWORD
+mqtt_incoming_topic:/TOPIC/FOR/SUBSCRIBE
+mqtt_outgoing_topic:/TOPIC/FOR/PUBLISH
