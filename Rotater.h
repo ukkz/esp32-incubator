@@ -10,6 +10,16 @@ class Rotater {
     int pwm_min_width = 765;
     int pwm_max_width = 2405;
     int ms_per_degrees = 100;
+    int attachAndRead() {
+      if (servo->attached()) {
+        // すでにアタッチされているときはサーボ関数から角度を読む
+        return servo->read();
+      } else {
+        // 未アタッチならアタッチして角度は設定クラスから読む
+        servo->attach(pin, pwm_min_width, pwm_max_width);
+        return conf->get("rotate_last_degrees").toInt();
+      }
+    }
     
   public:
     Rotater(Config* _conf, Servo* _servo, int servo_pin) {
@@ -21,9 +31,9 @@ class Rotater {
     }
     int getCurrentDegrees() { return conf->get("rotate_last_degrees").toInt(); }
     int run() {
-      servo->attach(pin, pwm_min_width, pwm_max_width);
-      // 現在の角度を読み込む
-      int current_degrees = conf->get("rotate_last_degrees").toInt();
+      // アタッチして現在の角度を読み込む
+      int current_degrees = attachAndRead();
+      // 最大最小の角度を読み込む
       int min_deg = conf->get("rotate_min_degrees").toInt();
       int max_deg = conf->get("rotate_max_degrees").toInt();
       // どちらかに回す
@@ -44,9 +54,8 @@ class Rotater {
       return current_degrees;
     }
     void fix(int target_degrees = 90, bool unlock = true) {
-      servo->attach(pin, pwm_min_width, pwm_max_width);
-      // 現在の角度を読み込む
-      int current_degrees = conf->get("rotate_last_degrees").toInt();
+      // アタッチして現在の角度を読み込む
+      int current_degrees = attachAndRead();
       // 目標角度にする
       if (current_degrees > target_degrees) {
         for (byte d=current_degrees; d>target_degrees; d--) { servo->write(d); delay(ms_per_degrees); }
