@@ -2,7 +2,7 @@
 
 DIY incubator system based on ESP32.
 
-The article for how to make is [here]() (Japanese).
+The article for how to make is [here](https://xor.hateblo.jp/entry/20200630/1593507600) (Japanese).
 
 ## Installation
 
